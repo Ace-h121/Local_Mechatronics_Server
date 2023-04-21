@@ -1,6 +1,17 @@
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write('Hello World!');
-  res.end();
-}).listen(8080);
+const { SerialPort } = require('serialport')
+const { ReadlineParser } = require('@serialport/parser-readline')
+const  fs  = require('fs')
+const http = require('http')
+
+const port = new SerialPort({ path: 'COM8', baudRate: 9600 })
+const parser = new ReadlineParser()
+port.pipe(parser)
+
+
+port.write("Robot go vrrrrr");
+
+parser.on('data', function(data){
+    console.log(data);
+});
+
+

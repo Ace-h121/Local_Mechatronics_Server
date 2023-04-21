@@ -25,5 +25,6 @@ parser.on('data', function(data){
     console.log(data);
 });
 
+port.write("9");
 
 
