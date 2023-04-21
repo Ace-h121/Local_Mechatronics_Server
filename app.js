@@ -17,11 +17,13 @@ http.createServer(function (req, res) {
   }).listen(8080);
 
 
-const port = new SerialPort({ path: 'COM8', baudRate: 9800 })
+const port = new SerialPort({ path: 'COM8', baudRate: 9600 })
 const parser = new ReadlineParser()
 port.pipe(parser)
 
-parser.on('data', console.log);
+parser.on('data', function(data){
+    console.log(data);
+});
 
-port.write("Hello");
+
 
