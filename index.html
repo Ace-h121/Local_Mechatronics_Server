@@ -7,9 +7,27 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 id="value">Hello World</h1>
-    <script src="app.js"> 
 
+
+
+    <h1>Controlling OwlBot</h1>
+
+     <input type="text" id="motorIndex" placeholder="Enter Motor Postion out of 13" maxlength="2">
+
+
+     <button onclick="logButton()"> Submit </button>
+
+     <style>
+        body {background-color:rgb(135, 135, 226); text-align:center; color:floralwhite}
+     </style>
+
+
+    <script src="app.js"> 
+        function logButton() {
+                alert("hello")
+                // port.write("12");
+            }
     </script>
+
 </body>
 </html>
