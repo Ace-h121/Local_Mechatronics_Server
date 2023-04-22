@@ -1,8 +1,14 @@
-const { SerialPort } = require('serialport')
-const { ReadlineParser } = require('@serialport/parser-readline')
+
 const  fs  = require('fs')
 const http = require('http')
 const serverPort = 3000
+
+const { SerialPort } = require('serialport')
+const { ReadlineParser } = require('@serialport/parser-readline')
+
+const arduinoConnectDelay = 2000;
+
+
 
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
@@ -17,14 +23,24 @@ http.createServer(function (req, res) {
   }).listen(8080);
 
 
-const port = new SerialPort({ path: 'COM8', baudRate: 9600 })
-const parser = new ReadlineParser()
-port.pipe(parser)
 
-parser.on('data', function(data){
-    console.log(data);
-});
-
-port.write("9");
+  const port = new SerialPort({ path: 'COM8', baudRate: 9600,})
+  const parser = new ReadlineParser()
+  
+  port.on('open', () => {
+      setTimeout(function () {
+            
+      }, arduinoConnectDelay)
+  })
+  
+  port.pipe(parser)
+  
+  
+  parser.on('data', function(data){
+      console.log(data);
+  
+  });
+  
+  
 
 
