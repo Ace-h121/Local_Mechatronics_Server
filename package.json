@@ -4,7 +4,9 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "faker": "^6.6.6",
-    "serialport": "^10.5.0"
+    "node-localstorage": "^2.2.1",
+    "serialport": "^10.5.0",
+    "socket.io": "^4.6.1"
   },
   "name": "javascript",
   "version": "1.0.0",

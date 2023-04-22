@@ -12,21 +12,26 @@
 
     <h1>Controlling OwlBot</h1>
 
+
+    <div id="sample"></div>
      <input type="text" id="motorIndex" placeholder="Enter Motor Postion out of 13" maxlength="2">
 
 
-     <button onclick="logButton()"> Submit </button>
+     <button onclick="logButton()" id="button"> Submit </button>
 
      <style>
         body {background-color:rgb(135, 135, 226); text-align:center; color:floralwhite}
      </style>
 
 
-    <script src="app.js"> 
-        function logButton() {
-                alert("hello")
-                // port.write("12");
-            }
+    <script> 
+        var socket = io.connect();
+
+        socket.on('data' , function(data){
+            console.log(data);
+            document.querySelector('sample').innerhtml(data);
+        })
+
     </script>
 
 </body>
