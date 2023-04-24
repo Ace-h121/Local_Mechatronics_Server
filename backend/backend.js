@@ -8,7 +8,7 @@ app.use(cors());
 app.listen(5000, ()=>console.log("Backend is connected"))
 
 app.get("/api",(req,res)=>{
-    res.send("hello")
+    res.json({"users":["its", "working", "omg"]})
 })
 
 // connecting to the arduino serialport
