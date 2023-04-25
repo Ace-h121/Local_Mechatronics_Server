@@ -2,44 +2,38 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState([{}]);
+  const [object, setObject] = useState([{}]);
 
   useEffect(() => {
     fetch("http://localhost:5000/api")
       .then((response) => response.json())
-      .then((data) => {
-        setData(data);
+      .then((object) => {
+        setObject(object);
       });
   }, []);
 
-  if (true){
-    return (
-      <>
-      <body>
-        <h1>
-          CONTROL THE OWLBOT!
-        </h1>
-        <input/>
-        <br/>
-        <button onClick={()=>console.log("itworked")}>
-          SUBMIT
-        </button>
-      </body>
-  
-      </>
-    )
+  function owlBotSubmit() {
+    alert("it worked");
+    let newPosition = {
+      owlbot: "5",
+    };
+
+    fetch("http://localhost:5000/postRequest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPosition),
+    }).then(console.log(newPosition));
   }
 
-  const handleClick = () => console.log("it worked");
   return (
-    <>
-      {typeof data.users === "undefined" ? (
-        <p>loading...</p>
-      ) : (
-        data.users.map((user, i) => <p key={i}>{user}</p>)
-      )}
-        <button onClick={handleClick}> </button>
-    </>
+    <body>
+      <h1 id="heading">CONTROL THE OWLBOT!</h1>
+      <input />
+      <br />
+      <button onClick={() => owlBotSubmit()}>SUBMIT</button>
+    </body>
   );
 }
 export default App;
