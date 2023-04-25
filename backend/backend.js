@@ -19,8 +19,9 @@ app.get("/api", (req, res) => {
 });
 
 app.post("/postRequest", (req, res) => {
-  console.log(req.body);
-  res.send("got request");
+  let newpositions = req.body;
+  botPositions.owlbot = req.body.owlbot;
+  port.write(botPositions.owlbot);
 });
 
 // connecting to the arduino serialport

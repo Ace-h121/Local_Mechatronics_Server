@@ -4,6 +4,8 @@ import "./App.css";
 function App() {
   const [object, setObject] = useState([{}]);
 
+  const [owlbotInput, setOwlbotInput] = useState();
+
   useEffect(() => {
     fetch("http://localhost:5000/api")
       .then((response) => response.json())
@@ -12,12 +14,15 @@ function App() {
       });
   }, []);
 
-  function owlBotSubmit() {
-    alert("it worked");
-    let newPosition = {
-      owlbot: "5",
-    };
+  const handleChange = (event) => {
+    let newValue = event.target.value;
+    setOwlbotInput(newValue);
+  };
 
+  function owlBotSubmit() {
+    let newPosition = {
+      owlbot: owlbotInput,
+    };
     fetch("http://localhost:5000/postRequest", {
       method: "POST",
       headers: {
@@ -30,7 +35,7 @@ function App() {
   return (
     <body>
       <h1 id="heading">CONTROL THE OWLBOT!</h1>
-      <input />
+      <input onChange={handleChange} />
       <br />
       <button onClick={() => owlBotSubmit()}>SUBMIT</button>
     </body>
