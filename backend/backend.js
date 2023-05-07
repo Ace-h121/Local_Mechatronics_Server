@@ -1,5 +1,24 @@
 import express from "express";
 import cors from "cors";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue } from "firebase/database";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBpVcO6H0G1eSjqtdIT4NnJ-_8reZEZf6w",
+  authDomain: "arduino-i-o.firebaseapp.com",
+  databaseURL: "https://arduino-i-o-default-rtdb.firebaseio.com",
+  projectId: "arduino-i-o",
+  storageBucket: "arduino-i-o.appspot.com",
+  messagingSenderId: "670585000029",
+  appId: "1:670585000029:web:6e1c320b2ca6ba58b6bdb4",
+  measurementId: "G-DT4F60MNPQ",
+};
+
+const firebaseapp = initializeApp(firebaseConfig);
+
+const database = getDatabase();
+
+const refrence = ref(database, "owlbot");
 
 const app = express();
 app.use(cors());
@@ -19,10 +38,14 @@ app.get("/api", (req, res) => {
 });
 
 app.post("/postRequest", (req, res) => {
-  let newpositions = req.body;
-  botPositions.owlbot = req.body.owlbot;
-  port.write(botPositions.owlbot);
+
+ 
 });
+
+onValue(refrence, (snapshot) =>{
+  const data =snapshot.val()
+  port.write(data.owlbot)
+})
 
 // connecting to the arduino serialport
 import { SerialPort } from "serialport";

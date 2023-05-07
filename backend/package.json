@@ -5,6 +5,7 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "faker": "^6.6.6",
+    "firebase": "^9.21.0",
     "node-localstorage": "^2.2.1",
     "serialport": "^10.5.0",
     "socket.io": "^4.6.1"
@@ -12,7 +13,7 @@
   "name": "javascript",
   "version": "1.0.0",
   "main": "app.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "app.js"
