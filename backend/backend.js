@@ -3,6 +3,8 @@ import cors from "cors";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
 
+
+//SETTING UP FIREBASE STUFF
 const firebaseConfig = {
   apiKey: "AIzaSyBpVcO6H0G1eSjqtdIT4NnJ-_8reZEZf6w",
   authDomain: "arduino-i-o.firebaseapp.com",
@@ -15,11 +17,11 @@ const firebaseConfig = {
 };
 
 const firebaseapp = initializeApp(firebaseConfig);
-
 const database = getDatabase();
-
 const refrence = ref(database, "owlbot");
 
+
+//EXPRESS INCASE WE NEED GET AND POST REQUESTS
 const app = express();
 app.use(cors());
 app.use(express.json());

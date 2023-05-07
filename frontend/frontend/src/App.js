@@ -35,15 +35,17 @@ function App() {
 
   const handleChange = (event) => {
     let newValue = event.target.value;
+  
     setOwlbotInput(newValue);
+
   };
 
   function owlBotSubmit() {
     let newPosition = {
       owlbot: owlbotInput,
     };
-
     set(refrence, newPosition);
+
 
     //old code used when it was only a local connection
     /*
@@ -60,7 +62,7 @@ function App() {
   return (
     <body>
       <h1 id="heading">CONTROL THE OWLBOT!</h1>
-      <input onChange={handleChange} />
+      <input onChange={handleChange}  type='number'/>
       <br />
       <button onClick={() => owlBotSubmit()}>SUBMIT</button>
     </body>
