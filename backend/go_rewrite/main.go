@@ -5,13 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
-	"time"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/db"
+	"github.com/dsyx/serialport-go"
 	"github.com/gorilla/mux"
-	"github.com/tarm/serial"
 	"google.golang.org/api/option"
 )
 
@@ -28,12 +26,12 @@ func main() {
 
 	//All the funny little firebase stuff
 	// Initialize Firebase
-	ctx := context.Background()
-	conf := &firebase.Config{
+	ctx = context.Background()
+	conf = &firebase.Config{
 		DatabaseURL: "https://arduino-i-o-default-rtdb.firebaseio.com/",
 	}
 	// Fetch the service account key JSON file contents
-	opt := option.WithCredentialsFile("arduino-i-o-firebase-adminsdk-zto4f-33eae2b7d3.json")
+	opt = option.WithCredentialsFile("arduino-i-o-firebase-adminsdk-zto4f-33eae2b7d3.json")
 
 	// Initialize the app with a service account, granting admin privileges
 	app, err := firebase.NewApp(ctx, conf, opt)
@@ -41,7 +39,7 @@ func main() {
 		log.Fatalln("Error initializing app:", err)
 	}
 
-	client, err := app.Database(ctx)
+	client, err = app.Database(ctx)
 	if err != nil {
 		log.Fatalln("Error initializing database client:", err)
 	}
@@ -66,7 +64,7 @@ func main() {
 func StartServer() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", test)
+	router.HandleFunc("/Getowl", test)
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
@@ -75,24 +73,22 @@ func StartServer() {
 }
 
 func test(writer http.ResponseWriter, request *http.Request) {
-
+	ref := client.NewRef("owlbot/owlbot")
+	var value int
+	ref.Get(ctx, &value)
+	println(value)
 }
 
 func WriteToOwlBot(value int) {
 
 	//The serial port for the arduino does not immeditly start reading, the delay is there in an attempts to prevent this.
-	arduinoDelay := time.Second * 2
-	time.Sleep(arduinoDelay)
-
-	//port config for the arduino,
-	portConfig := &serial.Config{Name: "COM5", Baud: 115200}
-	s, err := serial.OpenPort(portConfig)
+	sp, err := serialport.Open("COM3", serialport.DefaultConfig())
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
+	defer sp.Close()
 
-	//writes interger value as a string, as the function takes an array of bytes, which an int can not be converted to
-	s.Write([]byte(strconv.Itoa(value)))
+	sp.Write([]byte("test"))
 
 	println(value)
 
