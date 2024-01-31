@@ -76,13 +76,13 @@ func test(writer http.ResponseWriter, request *http.Request) {
 	ref := client.NewRef("owlbot/owlbot")
 	var value int
 	ref.Get(ctx, &value)
-	println(value)
+	WriteToOwlBot(value)
 }
 
 func WriteToOwlBot(value int) {
 
 	//The serial port for the arduino does not immeditly start reading, the delay is there in an attempts to prevent this.
-	sp, err := serialport.Open("COM3", serialport.DefaultConfig())
+	sp, err := serialport.Open("/dev/tty0", serialport.DefaultConfig())
 	if err != nil {
 		log.Fatalln(err)
 	}
