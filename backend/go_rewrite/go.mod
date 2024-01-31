@@ -4,6 +4,8 @@ go 1.21.6
 
 require firebase.google.com/go v3.13.0+incompatible
 
+require github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07 // indirect
+
 require (
 	cloud.google.com/go v0.112.0 // indirect
 	cloud.google.com/go/compute v1.23.3 // indirect
