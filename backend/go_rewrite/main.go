@@ -56,7 +56,7 @@ func main() {
 		log.Fatalln("Error reading from database:", err)
 	}
 
-	fmt.Println(data)
+	fmt.Println("cpnnected to server")
 
 	//time to spin up the server
 	StartServer()
