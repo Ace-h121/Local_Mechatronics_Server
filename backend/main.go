@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/db"
+
 	"github.com/dsyx/serialport-go"
 	"github.com/gorilla/mux"
 	"google.golang.org/api/option"
@@ -31,7 +33,7 @@ func main() {
 		DatabaseURL: "https://arduino-i-o-default-rtdb.firebaseio.com/",
 	}
 	// Fetch the service account key JSON file contents
-	opt = option.WithCredentialsFile("arduino-i-o-firebase-adminsdk-zto4f-33eae2b7d3.json")
+	opt = option.WithCredentialsFile("arduino-i-o-firebase-adminsdk-zto4f-40c6b65f35.json")
 
 	// Initialize the app with a service account, granting admin privileges
 	app, err := firebase.NewApp(ctx, conf, opt)
@@ -64,7 +66,7 @@ func main() {
 func StartServer() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/Getowl", test)
+	router.HandleFunc("/owl", handleOwl).Methods("GET")
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
@@ -72,17 +74,25 @@ func StartServer() {
 	}
 }
 
-func test(writer http.ResponseWriter, request *http.Request) {
+func handleOwl(writer http.ResponseWriter, request *http.Request) {
 	ref := client.NewRef("owlbot/owlbot")
-	var value int
-	ref.Get(ctx, &value)
+
+	str := request.FormValue("value")
+
+	value, err := strconv.Atoi(str)
+
+	if err != nil {
+		return
+	}
+
+	ref.Push(ctx, &value)
 	WriteToOwlBot(value)
 }
 
 func WriteToOwlBot(value int) {
 
 	//The serial port for the arduino does not immeditly start reading, the delay is there in an attempts to prevent this.
-	sp, err := serialport.Open("/dev/tty0", serialport.DefaultConfig())
+	sp, err := serialport.Open("COM6", serialport.DefaultConfig())
 	if err != nil {
 		log.Fatalln(err)
 	}
