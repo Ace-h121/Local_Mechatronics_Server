@@ -24,9 +24,9 @@ var (
 )
 
 func main() {
-	//Mux for routing stuff
+	// Mux for routing stuff
 
-	//All the funny little firebase stuff
+	// All the funny little firebase stuff
 	// Initialize Firebase
 	ctx = context.Background()
 	conf = &firebase.Config{
@@ -46,10 +46,10 @@ func main() {
 		log.Fatalln("Error initializing database client:", err)
 	}
 
-	//set refrences to the actual
+	// set refrences to the actual
 	ref := client.NewRef("Owlbot/Owlbot")
 
-	//create a varible to be able ot save data
+	// create a varible to be able ot save data
 	var data int
 
 	if err := ref.Get(ctx, &data); err != nil {
@@ -58,9 +58,8 @@ func main() {
 
 	fmt.Println("cpnnected to server")
 
-	//time to spin up the server
+	// time to spin up the server
 	StartServer()
-
 }
 
 func StartServer() {
@@ -80,7 +79,6 @@ func handleOwl(writer http.ResponseWriter, request *http.Request) {
 	str := request.FormValue("value")
 
 	value, err := strconv.Atoi(str)
-
 	if err != nil {
 		return
 	}
@@ -90,15 +88,15 @@ func handleOwl(writer http.ResponseWriter, request *http.Request) {
 }
 
 func WriteToOwlBot(value int) {
-
-	//The serial port for the arduino does not immeditly start reading, the delay is there in an attempts to prevent this.
+	// The serial port for the arduino does not immeditly start reading, the delay is there in an attempts to prevent this.
+	//
 	sp, err := serialport.Open("COM6", serialport.DefaultConfig())
 	if err != nil {
 		log.Fatalln(err)
 	}
 	defer sp.Close()
 
-	sp.Write([]byte("test"))
+	sp.Write([]byte(string(value)))
 
 	println(value)
 }
